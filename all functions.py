@@ -64,3 +64,42 @@ def ExtendedEuclidean(a,b):
         r4 = -r4
 
     return r3,r4
+
+
+def inverse(a,n):
+    if (Euclidean(a,n) != 1):
+        print("No inverse exists")
+        exit()
+    return (ExtendedEuclidean(a % n, n)[0] % n)
+
+def CRT(a,n):
+    sum = 0
+    product = 1
+    for i in n:
+        product *= i
+    for i in range(len(n)):
+        k = product/n[i]
+        inv = inverse(k, n[i])
+        sum += a[i] * k * inv
+    return (int)(sum % product), product
+
+
+def MillerRabin(bases,n):
+    k = 0
+    m = n-1
+    while (m % 2 == 0):
+        k += 1
+        m /= 2
+    m = int(m)
+    for a in bases:
+        prev = pow(a, m, n)
+        for e in range(1,k+1):
+            num = pow(a,m * pow(2,e), n)
+            if (num == 1 and (prev != 1 and prev != n-1)):
+                print(n, "is not a prime")
+                return
+            prev = num
+        if (prev != 1):
+            print(n, "is not a prime")
+            return
+    print(n, "is probably a prime")

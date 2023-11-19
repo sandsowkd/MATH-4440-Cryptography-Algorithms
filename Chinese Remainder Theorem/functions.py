@@ -64,3 +64,14 @@ def ExtendedEuclidean(a,b):
         r4 = -r4
 
     return r3,r4
+
+
+def inverse(a,n):
+    if (Euclidean(a,n) != 1):
+        print("No inverse exists")
+        exit()
+    return (ExtendedEuclidean(a % n, n)[0] % n)
+
+
+
+
