@@ -86,10 +86,11 @@ def MillerRabin(bases,n):
             num = pow(a,m * pow(2,e), n)
             if (num == 1 and (prev != 1 and prev != n-1)):
                 print(n, "is not a prime")
-                return
+                return 0
             prev = num
         if (prev != 1):
             print(n, "is not a prime")
-            return
+            return 0
     print(n, "is probably a prime")
+    return 1
 

@@ -18,4 +18,4 @@ if (not sympy.is_primitive_root(g, p)):
 h = input("The Discrete Log input (will be taken mod p): ")
 h = int(h) % p
 
-print("The exponent (",functions.BSGSDLP(g,h,p), ") of g (",g, ") Mod p (",p,") yields h (",h,")", sep = '')
+print("We get the exponent: ",functions.BDayAttack(g,h,p), sep = '')

@@ -72,34 +72,36 @@ def inverse(a,n):
         exit()
     return (ExtendedEuclidean(a % n, n)[0] % n)
 
-def CRT(a,n):
-    sum = 0
-    product = 1
-    for i in n:
-        product *= i
-    for i in range(len(n)):
-        k = product/n[i]
-        inv = inverse(k, n[i])
-        sum += a[i] * k * inv
-    return (int)(sum % product), product
+
+def BSGSDLP(g,h,p):
+    N = math.ceil(math.sqrt(p-1)) 
+
+    powers = {}
+    for i in range(N):
+        powers[pow(g, i, p)] = i
+
+    inv = inverse(g, p)
+    bigG = pow(inv, N, p)
 
 
-def MillerRabin(bases,n):
-    k = 0
-    m = n-1
-    while (m % 2 == 0):
-        k += 1
-        m /= 2
-    m = int(m)
-    for a in bases:
-        prev = pow(a, m, n)
-        for e in range(1,k+1):
-            num = pow(a,m * pow(2,e), n)
-            if (num == 1 and (prev != 1 and prev != n-1)):
-                print(n, "is not a prime")
-                return
-            prev = num
-        if (prev != 1):
-            print(n, "is not a prime")
-            return
-    print(n, "is probably a prime")
+    for i in range(N):
+        k = ((h * pow(bigG, i, p)) % p)
+        if k in powers:
+            return i * N + powers[k]
+
+    return None
+
+
+def BDayAttack(g,h,p):
+    N = math.ceil(math.sqrt(p-1)) 
+    powers = {}
+    for i in range(N):
+        j = int(random.uniform(0,p))
+        powers[pow(g,j,p)] = j
+    inv = inverse(g, p)
+    while (True):
+        j = int(random.uniform(0,p))
+        k = (h * pow(inv,j,p)) % p
+        if k in powers:
+            return (powers[k] + j) % (p - 1)
+            
