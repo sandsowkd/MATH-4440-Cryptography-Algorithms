@@ -356,6 +356,26 @@ def squareroot(p,n):
     return list
 
 
+def modifyfactorbase(b,n):
+    for p in b:
+        if ([] == squareroot(p,n)):
+            b.remove(p)
+    return b
+
+
+def quadfactor(b,k,n): #b = factor base, k = index, n = number tryna factor
+    a = k**2 - n #Number to go down to 0
+    factor = [0]*len(b) #Factor vector
+    for i in range(len(b)):
+        if (k % b[i]) in squareroot(b[i], n):
+            while (a % b[i] == 0):
+                a /= b[i]
+                factor[i] += 1
+    if (a == 1):
+        return True, factor
+    return False, factor
+
+
 def mod2independent(list, biglist):
     listt = [0]*len(list)
     for i in range(len(list)):
@@ -395,8 +415,56 @@ def getsolution(b,listt):
     return ansvec
     
 
-
 def quadraticsieve(b,n):
+    N = math.ceil(math.sqrt(n))
+    k = N
+    count = 0
+    diff = []
+    dictionary = {}
+    factored = []
+    indeplist = []
+    biglist = []
+
+    while True:
+        success, vec = quadfactor(b, k, n)
+        if success:
+            dictionary[tuple(vec)] = k
+            indeplist.append(vec)
+            if (not mod2independent(vec, biglist)):
+                print("HERERE")
+                break
+        k += 1
+        count += 1
+    
+    totalvec = [0]*len(b)
+    prod1 = 1
+    prod2 = 1
+    ansvec = getsolution(b,indeplist)
+    for i in range(len(ansvec)):
+        if (ansvec[i] == 1):
+            prod1 *= dictionary[tuple(indeplist[i])]
+            for j in range(len(totalvec)):
+                totalvec[j] += (indeplist[i])[j]
+    
+    for i in range(len(totalvec)):
+        totalvec[i] //= 2
+    
+    for i in range(len(totalvec)):
+        prod2 *= (b[i])**(totalvec[i])
+    
+    print(totalvec)
+    print(dictionary)
+    print(len(dictionary), len(b))
+    print(ansvec)
+    prod1 %= n
+    prod2 %= n
+
+    print(prod1, prod2)
+    
+    return Euclidean(prod1 - prod2, n)
+
+
+'''def quadraticsieve(b,n):
     N = math.ceil(math.sqrt(n))
     m = int(10 + N**(0.5)) #Will change later
     diff = []
@@ -446,4 +514,6 @@ def quadraticsieve(b,n):
     prod1 %= n
     prod2 %= n
     
-    return Euclidean(prod1 - prod2, n)
+    return Euclidean(prod1 - prod2, n)'''
+
+

@@ -82,6 +82,22 @@ def generatefactorbase(n):
     return bases
 
 
+def factor(b,n):
+    vec = [0] * len(b)
+    num = n
+    i = 0
+    while (i < len(b)):
+        if (num % b[i] == 0):
+            num /= b[i]
+            vec[i] += 1
+        else:
+            i += 1
+    if (num == 1):
+        return True, vec
+    else:
+        return False, vec
+
+
 def squareroot(p,n):
     list = []
     if (p==2):
@@ -91,10 +107,34 @@ def squareroot(p,n):
             if ((i**2) % p == n % p):
                 list.append(i)
                 list.append(p-i)
+
+    if (n == 3183103561 and p == 11):
+        print("HERERERE", list)
     if (0 in list):
         print("We have a factor:", p)
         exit()
     return list
+
+
+def modifyfactorbase(b,n):
+    for p in b:
+        if ([] == squareroot(p,n)):
+            b.remove(p)
+    return b
+
+
+def quadfactor(b,k,n): #b = factor base, k = index, n = number tryna factor
+    a = k**2 - n #Number to go down to 0
+    factor = [0]*len(b) #Factor vector
+    for i in range(len(b)):
+        if (k % b[i]) in squareroot(b[i], n):
+            while (a % b[i] == 0):
+                a /= b[i]
+                factor[i] += 1
+    if (a == 1):
+        return True, factor
+    return False, factor
+
 
 
 def mod2independent(list, biglist):
@@ -139,7 +179,57 @@ def getsolution(b,listt):
 
 def quadraticsieve(b,n):
     N = math.ceil(math.sqrt(n))
-    m = int(10 + N**(0.5)) #Will change later
+    k = N
+    count = 0
+    diff = []
+    dictionary = {}
+    factored = []
+    indeplist = []
+    biglist = []
+
+    while True:
+        success, vec = quadfactor(b, k, n)
+        if success:
+            dictionary[tuple(vec)] = k
+            indeplist.append(vec)
+            if (not mod2independent(vec, biglist)):
+                print("HERERE")
+                break
+        k += 1
+        count += 1
+    
+    totalvec = [0]*len(b)
+    prod1 = 1
+    prod2 = 1
+    ansvec = getsolution(b,indeplist)
+    for i in range(len(ansvec)):
+        if (ansvec[i] == 1):
+            prod1 *= dictionary[tuple(indeplist[i])]
+            for j in range(len(totalvec)):
+                totalvec[j] += (indeplist[i])[j]
+    
+    for i in range(len(totalvec)):
+        totalvec[i] //= 2
+    
+    for i in range(len(totalvec)):
+        prod2 *= (b[i])**(totalvec[i])
+    
+    print(totalvec)
+    print(dictionary)
+    print(len(dictionary), len(b))
+    print(ansvec)
+    prod1 %= n
+    prod2 %= n
+
+    print(prod1, prod2)
+    
+    return Euclidean(prod1 - prod2, n)
+
+
+def qquadraticsieve(b,n):
+    N = math.ceil(math.sqrt(n))
+    m = 100 #Will change later
+    count = 0
     diff = []
     dictionary = {}
     factored = []
@@ -184,8 +274,12 @@ def quadraticsieve(b,n):
     for i in range(len(totalvec)):
         prod2 *= (b[i])**(totalvec[i])
     
+    print(totalvec)
+    print(dictionary)
+    print(ansvec)
     prod1 %= n
     prod2 %= n
+
+    print(prod1, prod2)
     
     return Euclidean(prod1 - prod2, n)
-
