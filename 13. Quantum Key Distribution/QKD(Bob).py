@@ -3,16 +3,26 @@ import functions
 import sympy
 import random
 
-
+#What Bob generates:
 n = []
 for i in range(16):
     n.append(int(random.uniform(0,2)))
-print(n)
 
 Alicebases = functions.generateQKDbases(len(n))
 Bobbases = functions.generateQKDbases(len(n))
-print("Your bases: ", Alicebases)
-print("Bob's bases:", Bobbases)
+
+#What you recieved:
+recieved = []
+for i in range(len(n)):
+    if (Alicebases[i] == Bobbases[i]):
+        recieved.append(n[i])
+    else:
+        recieved.append(int(random.uniform(0,2)))
+
+print("You recieved this from Bob: ", recieved)
+print("Alice's bases:", Alicebases)
+print("Your bases:   ", Bobbases)
+
 
 shared = []
 for i in range(len(n)):
