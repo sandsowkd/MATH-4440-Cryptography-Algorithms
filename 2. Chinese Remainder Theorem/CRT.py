@@ -4,14 +4,15 @@ import functions
 n = input("List of Moduli: ").split()
 for i in range(len(n)):
     n[i] = int(n[i])
-a = input("List of Remainders: ").split()
-for i in range(len(a)):
-    a[i] = int(a[i])
 
 for i in n:
     if i <= 0:
         print("Please give Positive integer Moduli")
         exit()
+
+a = input("List of Remainders: ").split()
+for i in range(len(a)):
+    a[i] = int(a[i])
 
 if (len(n) != len(a)):
     print("Error: Different number of Moduli and Remainders")

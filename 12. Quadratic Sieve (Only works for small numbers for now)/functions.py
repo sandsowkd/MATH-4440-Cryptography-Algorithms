@@ -107,9 +107,6 @@ def squareroot(p,n):
             if ((i**2) % p == n % p):
                 list.append(i)
                 list.append(p-i)
-
-    if (n == 3183103561 and p == 11):
-        print("HERERERE", list)
     if (0 in list):
         print("We have a factor:", p)
         exit()
@@ -226,7 +223,7 @@ def quadraticsieve(b,n):
     return Euclidean(prod1 - prod2, n)
 
 
-def qquadraticsieve(b,n):
+'''def qquadraticsieve(b,n):
     N = math.ceil(math.sqrt(n))
     m = 100 #Will change later
     count = 0
@@ -282,4 +279,4 @@ def qquadraticsieve(b,n):
 
     print(prod1, prod2)
     
-    return Euclidean(prod1 - prod2, n)
+    return Euclidean(prod1 - prod2, n)'''

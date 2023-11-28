@@ -27,4 +27,4 @@ sharedkey = pow(bobpublic, aliceprivate, p)
 
 print("Your public key is", alicepublic, ", Bob's public key is", bobpublic, ", and the shared key is", sharedkey)
 print("From your perspective, the shared key is (Bob's public)^(Your private) mod p: ", sharedkey, " = ", bobpublic, "^", aliceprivate, " Mod ", p, sep='')
-print("From Bob's perspective, the shared key is (Your private)^(Bob's private) mod p: ", sharedkey, " = ", alicepublic, "^", bobprivate, " Mod ", p, sep='')
+print("From Bob's perspective, the shared key is (Your public)^(Bob's private) mod p: ", sharedkey, " = ", alicepublic, "^", bobprivate, " Mod ", p, sep='')

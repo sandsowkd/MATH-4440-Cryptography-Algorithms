@@ -1,11 +1,9 @@
 import math
 import functions
 
-print("First number:") 
-a = input()
+a = input("First number: ") #Inputs for GCD
 a = int(a)
-print("Second number:")
-b = input()
+b = input("Second number:")
 b = int(b)
 
 print("The GCD of",a,'and',b,'is', functions.Euclidean(a,b))

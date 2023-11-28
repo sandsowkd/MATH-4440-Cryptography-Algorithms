@@ -1,11 +1,9 @@
 import math
 import functions
 
-print("First number:") #Taking inputs
-a = input()
+a = input("First number: ") #Inputs for Bezout Coefficients
 a = int(a)
-print("Second number:")
-b = input()
+b = input("Second number: ")
 b = int(b)
 
 print("(",functions.ExtendedEuclidean(a,b)[0], "*", a,")", "+","(", functions.ExtendedEuclidean(a,b)[1], "*", b,")", "=",functions.Euclidean(a,b))
